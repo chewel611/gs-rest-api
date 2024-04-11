@@ -14,37 +14,34 @@
 package org.geoserver.openapi.model.catalog;
 
 import java.util.Objects;
-import java.util.Arrays;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import org.geoserver.openapi.model.catalog.MetadataEntry;
+
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * MetadataMap
  */
 @JsonPropertyOrder({
-  MetadataMap.JSON_PROPERTY_ENTRY
+  MetadataList.JSON_PROPERTY_ENTRY
 })
 
-public class MetadataMap {
+public class MetadataList {
   public static final String JSON_PROPERTY_ENTRY = "entry";
   private List<MetadataEntry> entry = null;
 
 
-  public MetadataMap entry(List<MetadataEntry> entry) {
+  public MetadataList entry(List<MetadataEntry> entry) {
     
     this.entry = entry;
     return this;
   }
 
-  public MetadataMap addEntryItem(MetadataEntry entryItem) {
+  public MetadataList addEntryItem(MetadataEntry entryItem) {
     if (this.entry == null) {
       this.entry = new ArrayList<>();
     }
@@ -79,8 +76,8 @@ public class MetadataMap {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    MetadataMap metadataMap = (MetadataMap) o;
-    return Objects.equals(this.entry, metadataMap.entry);
+    MetadataList metadataList = (MetadataList) o;
+    return Objects.equals(this.entry, metadataList.entry);
   }
 
   @Override

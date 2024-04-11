@@ -9,12 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.geoserver.openapi.model.catalog.FeatureTypeInfo;
 import org.geoserver.openapi.v1.client.FeaturetypesApi;
-import org.geoserver.openapi.v1.model.FeatureTypeInfoWrapper;
-import org.geoserver.openapi.v1.model.FeatureTypeList;
-import org.geoserver.openapi.v1.model.FeatureTypeResponse;
-import org.geoserver.openapi.v1.model.FeatureTypeResponseWrapper;
-import org.geoserver.openapi.v1.model.FeatureTypesListWrapper;
-import org.geoserver.openapi.v1.model.NamedLink;
+import org.geoserver.openapi.v1.model.*;
 import org.geoserver.restconfig.api.v1.mapper.FeatureTypeResponseMapper;
 import org.mapstruct.factory.Mappers;
 
@@ -24,7 +19,7 @@ public class FeatureTypesClient {
 
     private @NonNull GeoServerClient client;
 
-    private FeatureTypeResponseMapper mapper = Mappers.getMapper(FeatureTypeResponseMapper.class);
+    private final FeatureTypeResponseMapper mapper = Mappers.getMapper(FeatureTypeResponseMapper.class);
 
     FeaturetypesApi api() {
         return client.api(FeaturetypesApi.class);
@@ -47,7 +42,8 @@ public class FeatureTypesClient {
             info = client.clone(info);
             info.setStore(null);
         }
-        api().createFeatureType(workspaceName, new FeatureTypeInfoWrapper().featureType(info));
+        FeatureType featureType = mapper.map(info);
+        api().createFeatureType(workspaceName, new FeatureTypeInfoWrapper().featureType(featureType));
 
         FeatureTypeResponseWrapper wrapper =
                 api().getFeatureTypeByDefaultStore(workspaceName, info.getName(), true);
@@ -75,8 +71,12 @@ public class FeatureTypesClient {
             info = client.clone(info);
             info.setStore(null);
         }
+        FeatureType featureType = mapper.map(info);
         api().createFeatureTypeOnStore(
-                        workspaceName, storeName, new FeatureTypeInfoWrapper().featureType(info));
+                workspaceName,
+                storeName,
+                new FeatureTypeInfoWrapper().featureType(featureType)
+        );
         return getFeatureType(workspaceName, storeName, info.getName()).get();
     }
 
@@ -97,8 +97,12 @@ public class FeatureTypesClient {
             info.setName(info.getNativeName());
         }
         String storeName = info.getStore().getName();
+        FeatureType featureType = mapper.map(info);
         api().createFeatureTypeOnStore(
-                        workspaceName, storeName, new FeatureTypeInfoWrapper().featureType(info));
+                workspaceName,
+                storeName,
+                new FeatureTypeInfoWrapper().featureType(featureType)
+        );
         return getFeatureType(workspaceName, info.getStore().getName(), info.getName()).get();
     }
 
@@ -117,18 +121,22 @@ public class FeatureTypesClient {
             info.setName(info.getNativeName());
         }
         String storeName = info.getStore().getName();
-        FeatureTypeInfoWrapper requestBody = new FeatureTypeInfoWrapper().featureType(info);
+        FeatureType featureType = mapper.map(info);
         api().modifyFeatureTypeByStore(
-                        workspaceName, storeName, currentName, requestBody, (List<String>) null);
+                workspaceName,
+                storeName,
+                currentName,
+                new FeatureTypeInfoWrapper().featureType(featureType),
+                (List<String>) null
+        );
         return getFeatureType(workspaceName, info.getStore().getName(), info.getName()).get();
     }
 
     public Optional<FeatureTypeInfo> getFeatureType(
-            @NonNull String workspace, @NonNull String store, @NonNull String featureType) {
-
+            @NonNull String workspace, @NonNull String store, @NonNull String featureType)
+    {
         try {
-            FeatureTypeResponseWrapper wrapper =
-                    api().getFeatureType(workspace, store, featureType, true);
+            FeatureTypeResponseWrapper wrapper = api().getFeatureType(workspace, store, featureType, true);
             return Optional.of(mapper.map(wrapper.getFeatureType()));
         } catch (ServerException.NotFound nf) {
             return Optional.empty();
@@ -144,8 +152,7 @@ public class FeatureTypesClient {
             // it's odd that client call is in charge of telling the server whether to log a
             // warning/error or not
             Boolean quietOnNotFound = Boolean.TRUE;
-            featureTypesByStore =
-                    api().getFeatureTypesByStore(workspace, storeName, list, quietOnNotFound);
+            featureTypesByStore =  api().getFeatureTypesByStore(workspace, storeName, list, quietOnNotFound);
         } catch (Exception e) {
             log.debug(
                     "Got api error due to geoserver incompatible encoding of empty lists: {}",
@@ -168,5 +175,18 @@ public class FeatureTypesClient {
     public void deleteRecursively(@NonNull String workspaceName, @NonNull String featureTypeName) {
         Boolean recurse = true;
         api().deleteFeatureType(workspaceName, featureTypeName, recurse);
+    }
+
+    /**
+     * 清除图层缓存
+     * @param workspaceName
+     * @param dataStoreName
+     * @param featureTypeName
+     */
+    public void reset(@NonNull String workspaceName, @NonNull String dataStoreName, @NonNull String featureTypeName) {
+        Optional<FeatureTypeInfo> featureType = getFeatureType(workspaceName, dataStoreName, featureTypeName);
+        if(featureType.isPresent()) {
+            api().resetFeatureTypeByStore(workspaceName, dataStoreName, featureTypeName);
+        }
     }
 }

@@ -1,16 +1,14 @@
 package org.geoserver.openapi.v1.model;
 
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import org.geoserver.openapi.primitive.IntegerList;
-import org.geoserver.openapi.primitive.StringList;
-
-import java.util.Collection;
 
 @JsonPropertyOrder({
         TileLayerInfo.JSON_PROPERTY_ID,
@@ -61,7 +59,7 @@ public class TileLayer {
 
     @JsonProperty(JSON_PROPERTY_MIME_FORMATS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    private StringList mimeFormats;
+    private StringArrayResponse mimeFormats;
 
     @JsonProperty(JSON_PROPERTY_IN_MEMORY_CACHED)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -69,7 +67,7 @@ public class TileLayer {
 
     @JsonProperty(JSON_PROPERTY_META_WIDTH_HEIGHT)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    private IntegerList metaWidthHeight;
+    private IntegerArrayResponse metaWidthHeight;
 
     @JsonProperty(JSON_PROPERTY_EXPIRE_CLIENTS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -81,39 +79,32 @@ public class TileLayer {
 
     public void setMetaWidthHeight(Integer width, Integer height) {
         if(ObjUtil.isNull(metaWidthHeight)) {
-            metaWidthHeight = new IntegerList();
+            metaWidthHeight = new IntegerArrayResponse();
         }
         metaWidthHeight.clear();
-        metaWidthHeight.add(width);
-        metaWidthHeight.add(height);
+        metaWidthHeight.addItem(width);
+        metaWidthHeight.addItem(height);
     }
 
-    public void addMimeFormat(String mimeFormat) {
-        if(ObjUtil.isEmpty(mimeFormats)) {
-            mimeFormats = new StringList();
+    public void addMimeFormat(String... mimeFormats) {
+        if(ObjUtil.isEmpty(this.mimeFormats)) {
+            this.mimeFormats = new StringArrayResponse();
         }
-        if(!mimeFormats.exists(mimeFormat)) {
-            mimeFormats.add(mimeFormat);
+        for (String mimeFormat : mimeFormats) {
+            this.mimeFormats.addItem(mimeFormat);
         }
     }
 
-    public void addMimeFormats(Collection<String> mimeFormats) {
-        mimeFormats.forEach(this::addMimeFormat);
-    }
 
-    public void addGridSubSet(GridSubSet gridSubSet) {
-        if(ObjUtil.isNull(gridSubSet)) {
+    public void addGridSubSet(GridSubSet... gridSubSets) {
+        if(ArrayUtil.isEmpty(gridSubSets)) {
             return;
         }
-        if(ObjUtil.isNull(gridSubSets)) {
-            gridSubSets = new GridSubSetList();
+        if(ObjectUtil.isNull(this.gridSubSets)) {
+            this.gridSubSets = new GridSubSetList();
         }
-        if(!gridSubSets.exists(gridSubSet)) {
-            gridSubSets.addGridSubSet(gridSubSet);
+        for (GridSubSet gridSubSet : gridSubSets) {
+            this.gridSubSets.addGridSubSet(gridSubSet);
         }
-    }
-
-    public void addGridSubSets(Collection<GridSubSet> gridSubSets) {
-        gridSubSets.forEach(this::addGridSubSet);
     }
 }

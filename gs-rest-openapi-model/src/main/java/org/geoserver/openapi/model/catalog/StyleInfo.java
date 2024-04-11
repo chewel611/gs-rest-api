@@ -14,17 +14,12 @@
 package org.geoserver.openapi.model.catalog;
 
 import java.util.Objects;
-import java.util.Arrays;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.geoserver.openapi.model.catalog.LegendInfo;
-import org.geoserver.openapi.model.catalog.MetadataMap;
-import org.geoserver.openapi.model.catalog.Version;
-import org.geoserver.openapi.model.catalog.WorkspaceInfo;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
@@ -99,7 +94,7 @@ public class StyleInfo {
   private LegendInfo legend;
 
   public static final String JSON_PROPERTY_METADATA = "metadata";
-  private MetadataMap metadata;
+  private MetadataList metadata;
 
 
   public StyleInfo name(String name) {
@@ -277,7 +272,7 @@ public class StyleInfo {
   }
 
 
-  public StyleInfo metadata(MetadataMap metadata) {
+  public StyleInfo metadata(MetadataList metadata) {
     
     this.metadata = metadata;
     return this;
@@ -292,12 +287,12 @@ public class StyleInfo {
   @JsonProperty(JSON_PROPERTY_METADATA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public MetadataMap getMetadata() {
+  public MetadataList getMetadata() {
     return metadata;
   }
 
 
-  public void setMetadata(MetadataMap metadata) {
+  public void setMetadata(MetadataList metadata) {
     this.metadata = metadata;
   }
 

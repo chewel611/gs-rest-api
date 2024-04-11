@@ -1,14 +1,14 @@
 package org.geoserver.openapi.v1.model;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import org.geoserver.openapi.primitive.DoubleList;
-import org.geoserver.openapi.primitive.StringList;
 
 @JsonPropertyOrder({
         GridSetInfo.JSON_PROPERTY_NAME,
@@ -102,21 +102,21 @@ public class GridSet {
      */
     @JsonProperty(JSON_PROPERTY_RESOLUTIONS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    private DoubleList resolutions;
+    private DoubleArrayResponse resolutions;
 
     /**
      *  缩放比例
      */
     @JsonProperty(JSON_PROPERTY_SCALE_DENOMINATORS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    private DoubleList scaleDenominators;
+    private DoubleArrayResponse scaleDenominators;
 
     /**
      * 网格名称列表，必须根分辨率或者比例对应上
      */
     @JsonProperty(JSON_PROPERTY_SCALE_NAMES)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    private StringList scaleNames = new StringList();
+    private StringArrayResponse scaleNames = new StringArrayResponse();
 
     /**
      * 网格集的描述
@@ -134,14 +134,14 @@ public class GridSet {
         if(ObjUtil.isNotNull(scaleDenominators)) {
             throw new IllegalArgumentException("scaleDenominators has been set, can't set resolutions");
         }
-        if(scaleNames.exists(name)) {
+        if(CollUtil.contains(scaleNames.getValues(), name)) {
             throw new IllegalArgumentException("scale name has been exists, can't add same scale name");
         }
         if(ObjUtil.isNull(resolutions)) {
-            resolutions = new DoubleList();
+            resolutions = new DoubleArrayResponse();
         }
-        scaleNames.add(name);
-        resolutions.add(resolution);
+        scaleNames.addItem(name);
+        resolutions.addItem(resolution);
     }
 
     /**
@@ -150,16 +150,16 @@ public class GridSet {
      * @param scaleDenominator
      */
     public void addScaleDenominator(String name, double scaleDenominator) {
-        if(ObjUtil.isNotNull(resolutions)) {
+        if(ObjectUtil.isNotNull(resolutions)) {
             throw new IllegalArgumentException("resolutions has been set, can't set scaleDenominators");
         }
-        if(scaleNames.exists(name)) {
+        if(CollUtil.contains(scaleNames.getValues(), name)) {
             throw new IllegalArgumentException("scale name has been exists, can't add same scale name");
         }
-        if(ObjUtil.isNull(scaleDenominators)) {
-            scaleDenominators = new DoubleList();
+        if(ObjectUtil.isNull(scaleDenominators)) {
+            scaleDenominators = new DoubleArrayResponse();
         }
-        scaleNames.add(name);
-        scaleDenominators.add(scaleDenominator);
+        scaleNames.addItem(name);
+        scaleDenominators.addItem(scaleDenominator);
     }
 }

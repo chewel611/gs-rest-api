@@ -6,30 +6,86 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import org.geoserver.openapi.model.catalog.KeywordInfo;
 import org.geoserver.openapi.model.catalog.NamespaceInfo;
-import org.geoserver.openapi.v1.model.DoubleArrayResponse;
-import org.geoserver.openapi.v1.model.NamedLink;
-import org.geoserver.openapi.v1.model.ResourceResponseKeywords;
-import org.geoserver.openapi.v1.model.StringArrayResponse;
+import org.geoserver.openapi.v1.model.*;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
 public interface ResourceResponseMapper {
-
-    public default List<String> map(StringArrayResponse r) {
-        return r == null || r.getString() == null ? null : new ArrayList<String>(r.getString());
-    }
-
-    public default List<KeywordInfo> map(ResourceResponseKeywords r) {
-        return r == null || r.getString() == null
-                ? null
-                : r.getString().stream().map(this::mapKeyword).collect(Collectors.toList());
-    }
-
     @Mapping(source = "name", target = "prefix")
     @Mapping(source = "href", target = "uri")
-    public NamespaceInfo map(NamedLink l);
+    NamespaceInfo namedLinkToNamespaceInfo(NamedLink l);
 
-    public default KeywordInfo mapKeyword(String s) {
-        if (s == null) return null;
+    default List<String> stringArrayResponseToStringList(StringArrayResponse r) {
+        return r == null || r.getValues() == null ? null : new ArrayList<String>(r.getValues());
+    }
+
+    default StringArrayResponse stringListToStringArrayResponse(List<String> values) {
+        if (values == null || values.isEmpty()) {
+            return null;
+        }
+        return new StringArrayResponse(values);
+    }
+
+    default List<KeywordInfo> resourceResponseKeywordsToKeywordInfoList(ResourceResponseKeywords r) {
+
+        return r == null || r.getString() == null
+                ? null
+                : r.getString().stream().map(this::stringToKeywordInfo).collect(Collectors.toList());
+    }
+
+    default ResourceResponseKeywords keywordInfoListToResourceResponseKeyWords(List<KeywordInfo> r) {
+        if(r == null || r.isEmpty()) {
+            return null;
+        }
+        List<String> collect = r.stream().map(KeywordInfo::getValue).collect(Collectors.toList());
+        return new ResourceResponseKeywords(collect);
+    }
+
+    default List<Double> doubleArrayResponsemapDoubleList(DoubleArrayResponse value) {
+        if (value == null || value.getValues() == null) {
+            return null;
+        }
+        return new ArrayList<>(value.getValues());
+    }
+
+    default DoubleArrayResponse listDoubleTODoubleArrayResponse(List<Double> values) {
+        if (values == null || values.isEmpty()) {
+            return null;
+        }
+        return new DoubleArrayResponse(values);
+    }
+
+    default Double stringToDouble(String value) {
+        if (value == null) {
+            return null;
+        }
+        if ("inf".equals(value)) {
+            return Double.POSITIVE_INFINITY;
+        }
+        if ("-inf".equals(value)) {
+            return Double.NEGATIVE_INFINITY;
+        }
+        return Double.parseDouble(value);
+    }
+
+    default List<Integer> integerArrayResponseToIntegerList(IntegerArrayResponse value) {
+        if (value == null || value.getValues() == null) {
+            return null;
+        }
+        return new ArrayList<>(value.getValues());
+    }
+
+    default IntegerArrayResponse integerListToIntegerArrayResponse(List<Integer> values) {
+        if (values == null || values.isEmpty()) {
+            return null;
+        }
+        return new IntegerArrayResponse(values);
+    }
+
+    default KeywordInfo stringToKeywordInfo(String s) {
+        if (s == null) {
+            return null;
+        }
         KeywordInfo ki = new KeywordInfo();
         if (-1 == s.indexOf(';')) {
             ki.value(s);
@@ -54,7 +110,7 @@ public interface ResourceResponseMapper {
         return ki;
     }
 
-    public default String mapCrs(java.lang.Object value) {
+    default String crsObjectToString(Object value) {
         if (value == null) {
             return null;
         }
@@ -65,17 +121,5 @@ public interface ResourceResponseMapper {
             return (String) ((Map) value).get("$");
         }
         throw new IllegalStateException();
-    }
-
-    public default List<java.lang.Double> map(DoubleArrayResponse value) {
-        if (value == null || value.getDouble() == null) return null;
-        return new ArrayList<>(value.getDouble());
-    }
-
-    public default Double stringToDouble(String value) {
-        if (value == null) return null;
-        if ("inf".equals(value)) return Double.POSITIVE_INFINITY;
-        if ("-inf".equals(value)) return Double.NEGATIVE_INFINITY;
-        return Double.parseDouble(value);
     }
 }

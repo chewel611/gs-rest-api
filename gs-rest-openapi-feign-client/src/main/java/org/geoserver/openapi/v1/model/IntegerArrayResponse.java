@@ -27,20 +27,19 @@ import java.util.List;
  * StringArrayResponse
  */
 @JsonPropertyOrder({
-  DoubleArrayResponse.JSON_PROPERTY_STRING
+  IntegerArrayResponse.JSON_PROPERTY_VALUE
 })
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DoubleArrayResponse {
-  public static final String JSON_PROPERTY_STRING = "double";
+public class IntegerArrayResponse {
+  public static final String JSON_PROPERTY_VALUE = "int";
 
-  @JsonProperty(JSON_PROPERTY_STRING)
+  @JsonProperty(JSON_PROPERTY_VALUE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  private List<Double> values = null;
+  private List<Integer> values = null;
 
-
-  public DoubleArrayResponse addItem(Double value) {
+  public IntegerArrayResponse addItem(Integer value) {
     if (this.values == null) {
       this.values = new ArrayList<>();
     }

@@ -14,28 +14,15 @@
 package org.geoserver.openapi.model.catalog;
 
 import java.util.Objects;
-import java.util.Arrays;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.geoserver.openapi.model.catalog.CoverageDimensionInfo;
-import org.geoserver.openapi.model.catalog.CoverageInfoAllOf;
-import org.geoserver.openapi.model.catalog.CoverageStoreInfo;
-import org.geoserver.openapi.model.catalog.DataLinkInfo;
-import org.geoserver.openapi.model.catalog.EnvelopeInfo;
-import org.geoserver.openapi.model.catalog.KeywordInfo;
-import org.geoserver.openapi.model.catalog.MetadataLinks;
-import org.geoserver.openapi.model.catalog.MetadataMap;
-import org.geoserver.openapi.model.catalog.NamespaceInfo;
-import org.geoserver.openapi.model.catalog.ProjectionPolicy;
-import org.geoserver.openapi.model.catalog.ResourceInfo;
+
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
@@ -115,7 +102,7 @@ public class CoverageInfo {
   private EnvelopeInfo nativeBoundingBox;
 
   public static final String JSON_PROPERTY_METADATA = "metadata";
-  private MetadataMap metadata;
+  private MetadataList metadata;
 
   public static final String JSON_PROPERTY_METADATA_LINKS = "metadataLinks";
   private MetadataLinks metadataLinks;
@@ -522,7 +509,7 @@ public class CoverageInfo {
   }
 
 
-  public CoverageInfo metadata(MetadataMap metadata) {
+  public CoverageInfo metadata(MetadataList metadata) {
     
     this.metadata = metadata;
     return this;
@@ -537,12 +524,12 @@ public class CoverageInfo {
   @JsonProperty(JSON_PROPERTY_METADATA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public MetadataMap getMetadata() {
+  public MetadataList getMetadata() {
     return metadata;
   }
 
 
-  public void setMetadata(MetadataMap metadata) {
+  public void setMetadata(MetadataList metadata) {
     this.metadata = metadata;
   }
 

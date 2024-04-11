@@ -14,17 +14,16 @@
 package org.geoserver.openapi.v1.model;
 
 import java.util.Objects;
-import java.util.Arrays;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import org.geoserver.openapi.v1.model.LayerStyles;
-import org.geoserver.openapi.v1.model.NamedLink;
+
+import org.geoserver.openapi.model.catalog.MetadataList;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
@@ -108,7 +107,7 @@ public class Layer {
   private Boolean opaque;
 
   public static final String JSON_PROPERTY_METADATA = "metadata";
-  private org.geoserver.openapi.model.catalog.MetadataMap metadata;
+  private MetadataList metadata;
 
   public static final String JSON_PROPERTY_ATTRIBUTION = "attribution";
   private org.geoserver.openapi.model.catalog.AttributionInfo attribution;
@@ -295,7 +294,7 @@ public class Layer {
   }
 
 
-  public Layer metadata(org.geoserver.openapi.model.catalog.MetadataMap metadata) {
+  public Layer metadata(MetadataList metadata) {
     
     this.metadata = metadata;
     return this;
@@ -310,12 +309,12 @@ public class Layer {
   @JsonProperty(JSON_PROPERTY_METADATA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public org.geoserver.openapi.model.catalog.MetadataMap getMetadata() {
+  public MetadataList getMetadata() {
     return metadata;
   }
 
 
-  public void setMetadata(org.geoserver.openapi.model.catalog.MetadataMap metadata) {
+  public void setMetadata(MetadataList metadata) {
     this.metadata = metadata;
   }
 

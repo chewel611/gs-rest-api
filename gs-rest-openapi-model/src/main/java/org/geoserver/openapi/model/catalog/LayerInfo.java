@@ -14,26 +14,13 @@
 package org.geoserver.openapi.model.catalog;
 
 import java.util.Objects;
-import java.util.Arrays;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import org.geoserver.openapi.model.catalog.AttributionInfo;
-import org.geoserver.openapi.model.catalog.AuthorityURLInfo;
-import org.geoserver.openapi.model.catalog.LayerIdentifierInfo;
-import org.geoserver.openapi.model.catalog.LayerInfoAllOf;
-import org.geoserver.openapi.model.catalog.LegendInfo;
-import org.geoserver.openapi.model.catalog.MetadataMap;
-import org.geoserver.openapi.model.catalog.PublishedInfo;
-import org.geoserver.openapi.model.catalog.PublishedType;
-import org.geoserver.openapi.model.catalog.ResourceInfo;
-import org.geoserver.openapi.model.catalog.StyleInfo;
-import org.geoserver.openapi.model.catalog.WMSInterpolation;
+
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**

@@ -14,22 +14,15 @@
 package org.geoserver.openapi.model.catalog;
 
 import java.util.Objects;
-import java.util.Arrays;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import org.geoserver.openapi.model.catalog.AttributionInfo;
-import org.geoserver.openapi.model.catalog.AuthorityURLInfo;
-import org.geoserver.openapi.model.catalog.LayerIdentifierInfo;
-import org.geoserver.openapi.model.catalog.MetadataMap;
-import org.geoserver.openapi.model.catalog.PublishedType;
+
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
@@ -70,7 +63,7 @@ public class PublishedInfo {
   private String _abstract;
 
   public static final String JSON_PROPERTY_METADATA = "metadata";
-  private MetadataMap metadata;
+  private MetadataList metadata;
 
   public static final String JSON_PROPERTY_AUTHORITY_U_R_LS = "authorityURLs";
   private List<AuthorityURLInfo> authorityURLs = null;
@@ -182,7 +175,7 @@ public class PublishedInfo {
   }
 
 
-  public PublishedInfo metadata(MetadataMap metadata) {
+  public PublishedInfo metadata(MetadataList metadata) {
     
     this.metadata = metadata;
     return this;
@@ -197,12 +190,12 @@ public class PublishedInfo {
   @JsonProperty(JSON_PROPERTY_METADATA)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public MetadataMap getMetadata() {
+  public MetadataList getMetadata() {
     return metadata;
   }
 
 
-  public void setMetadata(MetadataMap metadata) {
+  public void setMetadata(MetadataList metadata) {
     this.metadata = metadata;
   }
 

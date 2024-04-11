@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import org.geoserver.openapi.primitive.StringList;
 import org.geoserver.openapi.v1.enums.TileSeedType;
 
 @JsonPropertyOrder({

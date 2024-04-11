@@ -3,6 +3,7 @@ package org.geoserver.restconfig.client;
 import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.SneakyThrows;
+import org.geoserver.openapi.model.catalog.FeatureTypeInfo;
 import org.geoserver.openapi.v1.constants.GSCommonConstants;
 import org.geoserver.openapi.v1.enums.TileSeedType;
 import org.geoserver.openapi.v1.model.*;
@@ -15,8 +16,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class GeoServerClientTester {
     private static final String ENDPOINTS = "http://127.0.0.1:8080/geoserver";
@@ -30,6 +31,13 @@ public class GeoServerClientTester {
     @Test
     public void testReload() {
         geoServerClient.reload();
+    }
+
+    @Test
+    public void testCreateFeatureType() {
+        Optional<FeatureTypeInfo> featureType = geoServerClient.featureTypes().getFeatureType("topp", "states_shapefile", "states");
+        Assert.assertNotNull(featureType);
+        geoServerClient.featureTypes().update("topp", featureType.get().getName(), featureType.get());
     }
 
     @Test

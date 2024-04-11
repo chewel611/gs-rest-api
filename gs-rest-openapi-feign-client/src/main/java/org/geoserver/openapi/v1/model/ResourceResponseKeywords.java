@@ -24,6 +24,8 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 /**
  * ResourceResponseKeywords
@@ -31,17 +33,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   ResourceResponseKeywords.JSON_PROPERTY_STRING
 })
-
+@NoArgsConstructor
+@AllArgsConstructor
 public class ResourceResponseKeywords {
   public static final String JSON_PROPERTY_STRING = "string";
   private List<String> string = null;
-
-
-  public ResourceResponseKeywords string(List<String> string) {
-    
-    this.string = string;
-    return this;
-  }
 
   public ResourceResponseKeywords addStringItem(String stringItem) {
     if (this.string == null) {

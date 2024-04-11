@@ -19,8 +19,10 @@ public interface CoverageResponseMapper extends ResourceResponseMapper {
                     "java(source.getParameters() == null? null : (String)source.getParameters().get(\"nativeCoverageName\"))")
     CoverageInfo map(CoverageResponse source);
 
-    public default CoverageStoreInfo namedLinkToCoverageStoreInfo(NamedLink namedLink) {
-        if (namedLink == null) return null;
+    default CoverageStoreInfo namedLinkToCoverageStoreInfo(NamedLink namedLink) {
+        if (namedLink == null) {
+            return null;
+        }
 
         CoverageStoreInfo store = new CoverageStoreInfo();
 

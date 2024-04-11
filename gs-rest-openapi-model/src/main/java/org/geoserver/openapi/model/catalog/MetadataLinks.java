@@ -33,7 +33,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   MetadataLinks.JSON_PROPERTY_METADATA_LINK
 })
-
 public class MetadataLinks {
   public static final String JSON_PROPERTY_METADATA_LINK = "metadataLink";
   private List<MetadataLinkInfo> metadataLink = null;

@@ -32,10 +32,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 public class FeatureTypeInfoWrapper {
   public static final String JSON_PROPERTY_FEATURE_TYPE = "featureType";
-  private org.geoserver.openapi.model.catalog.FeatureTypeInfo featureType = null;
+  private FeatureType featureType = null;
 
 
-  public FeatureTypeInfoWrapper featureType(org.geoserver.openapi.model.catalog.FeatureTypeInfo featureType) {
+  public FeatureTypeInfoWrapper featureType(FeatureType featureType) {
     
     this.featureType = featureType;
     return this;
@@ -50,12 +50,12 @@ public class FeatureTypeInfoWrapper {
   @JsonProperty(JSON_PROPERTY_FEATURE_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public org.geoserver.openapi.model.catalog.FeatureTypeInfo getFeatureType() {
+  public FeatureType getFeatureType() {
     return featureType;
   }
 
 
-  public void setFeatureType(org.geoserver.openapi.model.catalog.FeatureTypeInfo featureType) {
+  public void setFeatureType(FeatureType featureType) {
     this.featureType = featureType;
   }
 

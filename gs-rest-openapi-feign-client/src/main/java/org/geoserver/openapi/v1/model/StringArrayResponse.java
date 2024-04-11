@@ -13,100 +13,44 @@
 
 package org.geoserver.openapi.v1.model;
 
-import java.util.Objects;
-import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * StringArrayResponse
  */
 @JsonPropertyOrder({
-  StringArrayResponse.JSON_PROPERTY_STRING
+  StringArrayResponse.JSON_PROPERTY_VALUE
 })
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class StringArrayResponse {
-  public static final String JSON_PROPERTY_STRING = "string";
-  private List<String> string = null;
+  public static final String JSON_PROPERTY_VALUE = "string";
 
-
-  public StringArrayResponse string(List<String> string) {
-    
-    this.string = string;
-    return this;
-  }
-
-  public StringArrayResponse addStringItem(String stringItem) {
-    if (this.string == null) {
-      this.string = new ArrayList<>();
-    }
-    this.string.add(stringItem);
-    return this;
-  }
-
-   /**
-   * Get string
-   * @return string
-  **/
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_STRING)
+  @JsonProperty(JSON_PROPERTY_VALUE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  private List<String> values = null;
 
-  public List<String> getString() {
-    return string;
-  }
-
-
-  public void setString(List<String> string) {
-    this.string = string;
-  }
-
-
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
+  public StringArrayResponse addItem(String value) {
+    if (this.values == null) {
+      this.values = new ArrayList<>();
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+    this.values.add(value);
+    return this;
+  }
+
+  public void clear() {
+    if(this.values != null) {
+      this.values.clear();
     }
-    StringArrayResponse stringArrayResponse = (StringArrayResponse) o;
-    return Objects.equals(this.string, stringArrayResponse.string);
   }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(string);
-  }
-
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class StringArrayResponse {\n");
-    sb.append("    string: ").append(toIndentedString(string)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-
 }
 

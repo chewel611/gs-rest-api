@@ -427,6 +427,13 @@ public interface FeaturetypesApi extends ApiClient.Api {
   })
   void modifyFeatureTypeByStore(@Param("workspaceName") String workspaceName, @Param("storeName") String storeName, @Param("featureTypeName") String featureTypeName, FeatureTypeInfoWrapper featureTypeInfoWrapper, @QueryMap(encoded=true) Map<String, Object> queryParams);
 
+  @RequestLine("PUT /rest/workspaces/{workspaceName}/datastores/{storeName}/featuretypes/{featureTypeName}/reset")
+  @Headers({
+          "Content-Type: application/json",
+          "Accept: application/json",
+  })
+  void resetFeatureTypeByStore(@Param("workspaceName") String workspaceName, @Param("storeName") String storeName, @Param("featureTypeName") String featureTypeName);
+
   /**
    * A convenience class for generating query parameters for the
    * <code>modifyFeatureTypeByStore</code> method in a fluent style.
