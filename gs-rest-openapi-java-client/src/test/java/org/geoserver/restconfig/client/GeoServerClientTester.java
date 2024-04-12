@@ -38,6 +38,7 @@ public class GeoServerClientTester {
     public void testCreateFeatureType() {
         Optional<FeatureTypeInfo> featureType = geoServerClient.featureTypes().getFeatureType("topp", "states_shapefile", "states");
         Assert.assertNotNull(featureType);
+        System.out.println(featureType);
         FeatureTypeInfo featureTypeInfo = featureType.get();
         featureTypeInfo.setOverridingServiceSRS(true);
         featureTypeInfo.setServiceConfiguration(true);
@@ -47,7 +48,7 @@ public class GeoServerClientTester {
         featureTypeInfo.addResponseSRSItem("4326");
         featureTypeInfo.addResponseSRSItem("3857");
 
-        geoServerClient.featureTypes().update("topp", featureType.get().getName(), featureType.get());
+        geoServerClient.featureTypes().update("topp", featureTypeInfo.getName(), featureTypeInfo);
     }
 
     @Test

@@ -33,7 +33,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   AttributeTypeInfo.JSON_PROPERTY_MAX_OCCURS,
   AttributeTypeInfo.JSON_PROPERTY_NILLABLE,
   AttributeTypeInfo.JSON_PROPERTY_BINDING,
-  AttributeTypeInfo.JSON_PROPERTY_LENGTH
+  AttributeTypeInfo.JSON_PROPERTY_LENGTH,
+        AttributeTypeInfo.JSON_PROPERTY_SOURCE
 })
 
 public class AttributeTypeInfo {
@@ -54,6 +55,9 @@ public class AttributeTypeInfo {
 
   public static final String JSON_PROPERTY_LENGTH = "length";
   private Integer length;
+
+  public static final String JSON_PROPERTY_SOURCE = "source";
+  private String source;
 
 
   public AttributeTypeInfo name(String name) {
@@ -206,6 +210,27 @@ public class AttributeTypeInfo {
   }
 
 
+  public AttributeTypeInfo source(String source) {
+    this.source = source;
+    return this;
+  }
+
+  /**
+   * Returns the length of this attribute. It&#39;s usually non null only for string and numeric types
+   * @return length
+   **/
+  @JsonProperty(JSON_PROPERTY_SOURCE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getSource() {
+    return source;
+  }
+
+
+  public void setSource(String source) {
+    this.source = source;
+  }
+
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -216,16 +241,17 @@ public class AttributeTypeInfo {
     }
     AttributeTypeInfo attributeTypeInfo = (AttributeTypeInfo) o;
     return Objects.equals(this.name, attributeTypeInfo.name) &&
-        Objects.equals(this.minOccurs, attributeTypeInfo.minOccurs) &&
-        Objects.equals(this.maxOccurs, attributeTypeInfo.maxOccurs) &&
-        Objects.equals(this.nillable, attributeTypeInfo.nillable) &&
-        Objects.equals(this.binding, attributeTypeInfo.binding) &&
-        Objects.equals(this.length, attributeTypeInfo.length);
+            Objects.equals(this.minOccurs, attributeTypeInfo.minOccurs) &&
+            Objects.equals(this.maxOccurs, attributeTypeInfo.maxOccurs) &&
+            Objects.equals(this.nillable, attributeTypeInfo.nillable) &&
+            Objects.equals(this.binding, attributeTypeInfo.binding) &&
+            Objects.equals(this.source, attributeTypeInfo.source) &&
+            Objects.equals(this.length, attributeTypeInfo.length);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, minOccurs, maxOccurs, nillable, binding, length);
+    return Objects.hash(name, minOccurs, maxOccurs, nillable, binding, length, source);
   }
 
 
@@ -239,6 +265,7 @@ public class AttributeTypeInfo {
     sb.append("    nillable: ").append(toIndentedString(nillable)).append("\n");
     sb.append("    binding: ").append(toIndentedString(binding)).append("\n");
     sb.append("    length: ").append(toIndentedString(length)).append("\n");
+    sb.append("    source: ").append(toIndentedString(source)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -253,6 +280,5 @@ public class AttributeTypeInfo {
     }
     return o.toString().replace("\n", "\n    ");
   }
-
 }
 
