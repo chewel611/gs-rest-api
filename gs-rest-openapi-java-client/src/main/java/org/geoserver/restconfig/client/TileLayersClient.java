@@ -154,6 +154,9 @@ public class TileLayersClient {
             throw new IllegalArgumentException("layerName is not blank");
         }
         TileLayerInfo tileLayerInfo = get(layerName);
+        if(tileLayerInfo == null) {
+            return;
+        }
         String truncateLayer = String.format(GSCommonConstants.TRUNCATE_LAYER,layerName);
         api().truncate(truncateLayer.getBytes(StandardCharsets.UTF_8));
 
