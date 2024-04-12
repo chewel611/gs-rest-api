@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import lombok.SneakyThrows;
 import org.geoserver.openapi.model.catalog.FeatureTypeInfo;
 import org.geoserver.openapi.v1.constants.GSCommonConstants;
+import org.geoserver.openapi.v1.enums.LayerServiceType;
 import org.geoserver.openapi.v1.enums.TileSeedType;
 import org.geoserver.openapi.v1.model.*;
 import org.junit.Assert;
@@ -37,6 +38,15 @@ public class GeoServerClientTester {
     public void testCreateFeatureType() {
         Optional<FeatureTypeInfo> featureType = geoServerClient.featureTypes().getFeatureType("topp", "states_shapefile", "states");
         Assert.assertNotNull(featureType);
+        FeatureTypeInfo featureTypeInfo = featureType.get();
+        featureTypeInfo.setOverridingServiceSRS(true);
+        featureTypeInfo.setServiceConfiguration(true);
+        featureTypeInfo.addDisabledServicesItem(LayerServiceType.CSW.name());
+        featureTypeInfo.addDisabledServicesItem(LayerServiceType.WPS.name());
+
+        featureTypeInfo.addResponseSRSItem("4326");
+        featureTypeInfo.addResponseSRSItem("3857");
+
         geoServerClient.featureTypes().update("topp", featureType.get().getName(), featureType.get());
     }
 
