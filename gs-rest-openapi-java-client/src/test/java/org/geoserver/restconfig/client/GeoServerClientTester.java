@@ -40,6 +40,7 @@ public class GeoServerClientTester {
         Assert.assertNotNull(featureType);
         System.out.println(featureType);
         FeatureTypeInfo featureTypeInfo = featureType.get();
+        featureTypeInfo.setNativeCRS("4490");
         featureTypeInfo.setOverridingServiceSRS(true);
         featureTypeInfo.setServiceConfiguration(true);
         featureTypeInfo.addDisabledServicesItem(LayerServiceType.CSW.name());
