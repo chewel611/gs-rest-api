@@ -114,7 +114,7 @@ public interface ExtendedStylesApi extends ApiClient.Api {
     @RequestLine("PUT /rest/styles/{style}")
     @Headers({
             "Content-Type: application/json",
-            "Content-Encoding: identity",
+            "Accept-Encoding: identity",
             "Accept: application/json",
     })
     void update(@Param("style") String style, StyleInfoWrapper info);
@@ -122,7 +122,7 @@ public interface ExtendedStylesApi extends ApiClient.Api {
     @RequestLine("PUT /rest/workspaces/{workspace}/styles/{style}?raw={raw}")
     @Headers({
             "Content-Type: application/json",
-            "Content-Encoding: identity",
+            "Accept-Encoding: identity",
             "Accept: application/json",
     })
     void update(
@@ -207,7 +207,7 @@ public interface ExtendedStylesApi extends ApiClient.Api {
     @RequestLine("POST /rest/styles?name={name}")
     @Headers({
             "Content-Type: application/json",
-            "Content-Encoding: identity",
+            "Accept-Encoding: identity",
             "Accept: text/plain",
     })
     String createStyle(StyleInfoWrapper styleInfoWrapper, @Param("name") String name);
@@ -242,7 +242,7 @@ public interface ExtendedStylesApi extends ApiClient.Api {
     @RequestLine("POST /rest/styles?name={name}")
     @Headers({
             "Content-Type: application/json",
-            "Content-Encoding: identity",
+            "Accept-Encoding: identity",
             "Accept: text/plain",
     })
     String createStyle(
